@@ -1,134 +1,270 @@
-# TypeScript Learning Roadmap
 
-A comprehensive guide to mastering TypeScript fundamentals and advanced concepts before starting an industrial project.
+# TypeScript Learning Guide
+
+This guide covers core TypeScript concepts including object structures, functions, type aliases, generics, and advanced types. Each section provides examples and explanations to help you understand TypeScript’s capabilities.
 
 ---
 
 ## Table of Contents
-
-1. [Essentials](#essentials)
-2. [Advanced TypeScript Concepts](#advanced-typescript-concepts)
-3. [Modern Development](#modern-development)
-4. [Frameworks and Libraries](#frameworks-and-libraries)
-5. [Bonus Topics](#bonus-topics)
-
----
-
-## Essentials
-
-1. **Basic Types**
-   - `string`, `number`, `boolean`, `null`, `undefined`, `any`, `unknown`
-   - Arrays and Tuples
-   - Union and Intersection Types
-
-2. **Functions**
-   - Parameter and Return Type Annotations
-   - Optional and Default Parameters
-   - Function Overloads
-
-3. **Objects and Interfaces**
-   - Typing Objects and Nested Objects
-   - Interfaces for Type Safety
-   - Readonly Properties and Optional Properties in Interfaces
-
-4. **Type Aliases**
-   - Using `type` to define custom types
-   - Union and Intersection in Type Aliases
-
-5. **Enums**
-   - Numeric and String Enums
-   - Using enums with types
+1. [Object Power, Optional, and Literal Types](#object-power-optional-and-literal-types)
+2. [Functions in TypeScript](#functions-in-typescript)
+3. [Destructuring in TypeScript](#destructuring-in-typescript)
+4. [Type Aliases](#type-aliases)
+5. [Union and Intersection Types](#union-and-intersection-types)
+6. [Operators: Ternary, Optional Chaining, and Nullish Coalescing](#operators-ternary-optional-chaining-and-nullish-coalescing)
+7. [Type Assertion and Narrowing](#type-assertion-and-narrowing)
+8. [Interface vs Type](#interface-vs-type)
+9. [Generics](#generics)
+10. [Generics with Interfaces](#generics-with-interfaces)
+11. [Function with Generics](#function-with-generics)
+12. [Constraints](#constraints)
+13. [Constraint Using `keyof`](#constraint-using-keyof)
+14. [Asynchronous TypeScript](#asynchronous-typescript)
+15. [Conditional Types](#conditional-types)
+16. [Mapped Types](#mapped-types)
+17. [Utility Types](#utility-types)
 
 ---
 
-## Advanced TypeScript Concepts
+## 1. Object Power, Optional, and Literal Types
 
-1. **Generics**
-   - Generic Functions, Classes, and Interfaces
-   - Constraints with Generics (e.g., `T extends`)
-   - Default Values for Generics
+### Object Power
+Define object structures with exact properties for reliability.
 
-2. **Type Assertions and Type Casting**
-   - Using `as` keyword for type assertions
-   - Angle bracket syntax (`<Type>value`)
+```typescript
+type User = {
+   name: string;
+   age: number;
+   isAdmin: boolean;
+};
 
-3. **Keyof, typeof, and Index Types**
-   - Using `keyof` for dynamic key references
-   - `typeof` for getting the type of variables
-   - Index types (`{ [key: string]: Type }`)
+const user1: User = { name: "Alice", age: 25, isAdmin: false };
+```
 
-4. **Mapped Types**
-   - Creating new types by transforming existing ones
-   - Using `Partial`, `Required`, `Readonly`, `Pick`, and `Omit`
+### Optional Properties
+Define properties that may or may not exist using `?`.
 
-5. **Conditional Types**
-   - Basic conditional types (e.g., `T extends U ? X : Y`)
-   - Utility types like `Exclude`, `Extract`, `NonNullable`, etc.
+```typescript
+type UserWithOptional = {
+   name: string;
+   age?: number;
+};
 
----
+const user2: UserWithOptional = { name: "Bob" };
+```
 
-## Modern Development
+### Literal Types
+Use literal types to specify exact values for properties.
 
-1. **Type Inference and Type Compatibility**
-   - Understanding how TypeScript infers types and compatibility rules
-
-2. **Modules and Namespaces**
-   - Importing and Exporting modules
-   - `export`, `export default`, and `import`
-
-3. **Declaration Files (.d.ts)**
-   - Understanding and creating `.d.ts` files for third-party libraries
-   - Using DefinitelyTyped for external type declarations
-
-4. **TypeScript Configuration**
-   - `tsconfig.json` basics and commonly used options
-   - Strict mode settings (`strictNullChecks`, `noImplicitAny`, etc.)
-   - Path mapping and module resolution
-
-5. **Type Guards**
-   - `typeof`, `instanceof`, and custom type guards
-   - Narrowing types with guards
-
-6. **Error Handling and Best Practices**
-   - Writing safe and maintainable TypeScript code
+```typescript
+type Status = "active" | "inactive" | "suspended";
+const accountStatus: Status = "active";
+```
 
 ---
 
-## Frameworks and Libraries
+## 2. Functions in TypeScript
 
-1. **TypeScript with React**
-   - Typing props and state in React components
-   - Typing React hooks (`useState`, `useRef`, etc.)
-   - Higher-order components and context API with TypeScript
+Specify parameter and return types for functions.
 
-2. **TypeScript with Node.js**
-   - Typing Express requests and responses
-   - Working with async/await and Promises
+```typescript
+function add(a: number, b: number): number {
+   return a + b;
+}
 
-3. **Testing with TypeScript**
-   - Using TypeScript with Jest or other testing frameworks
-   - Writing testable TypeScript code and testing types
-
-4. **Advanced TypeScript Tools**
-   - Linting and formatting with ESLint and Prettier
-   - Debugging TypeScript code
+function greet(name: string, greeting?: string): string {
+   return `${greeting || "Hello"}, ${name}!`;
+}
+```
 
 ---
 
-## Bonus Topics
+## 3. Destructuring in TypeScript
 
-1. **Decorators (if needed)**
-   - Using and creating decorators (experimental feature)
-   - Class decorators, method decorators, and property decorators
+Use destructuring to simplify access to object properties or array elements.
 
-2. **TypeScript with GraphQL (if applicable)**
-   - Using TypeScript with GraphQL queries and mutations
-   - Typing responses and schemas
-
-3. **Working with TypeORM or Prisma**
-   - Defining models and types for databases
-   - Strongly typing database queries
+```typescript
+const user = { name: "Alice", age: 30 };
+const { name, age } = user;
+```
 
 ---
 
-By mastering these TypeScript concepts, you'll be well-prepared to handle TypeScript-based projects in real-world environments!
+## 4. Type Aliases
+
+Type aliases create custom names for types to simplify code.
+
+```typescript
+type Point = { x: number; y: number };
+const center: Point = { x: 0, y: 0 };
+```
+
+---
+
+## 5. Union and Intersection Types
+
+Define variables that accept multiple types (union) or a combination of types (intersection).
+
+```typescript
+let score: number | string = 100;
+
+type Admin = { admin: true };
+type User = { name: string };
+type AdminUser = Admin & User;
+```
+
+---
+
+## 6. Operators: Ternary, Optional Chaining, and Nullish Coalescing
+
+- **Ternary**: `condition ? expr1 : expr2`
+- **Optional Chaining**: Access nested properties safely.
+- **Nullish Coalescing**: Provide default only if `null` or `undefined`.
+
+```typescript
+const user = { name: "Alice", address: { city: "Wonderland" } };
+const displayName = user.name ?? "Guest";
+```
+
+---
+
+## 7. Type Assertion and Narrowing
+
+Refine types in complex situations with type assertions and control flow.
+
+```typescript
+let someValue: unknown = "Hello World";
+let strLength: number = (someValue as string).length;
+```
+
+---
+
+## 8. Interface vs Type
+
+Interfaces define object shapes and can extend other interfaces. Types are versatile and support unions, intersections, and more.
+
+```typescript
+interface Person {
+   name: string;
+   age: number;
+}
+
+type Employee = {
+   position: string;
+};
+
+interface Developer extends Person {
+   language: string;
+}
+
+type DevEmployee = Person & Employee;
+```
+
+---
+
+## 9. Generics
+
+Generics enable components to work with any type.
+
+```typescript
+function identity<T>(value: T): T {
+   return value;
+}
+```
+
+---
+
+## 10. Generics with Interfaces
+
+Combine generics and interfaces to define flexible data structures.
+
+```typescript
+interface Box<T> {
+   content: T;
+}
+```
+
+---
+
+## 11. Function with Generics
+
+Generics in functions allow handling different types while maintaining type safety.
+
+```typescript
+function merge<T, U>(obj1: T, obj2: U): T & U {
+   return { ...obj1, ...obj2 };
+}
+```
+
+---
+
+## 12. Constraints
+
+Constraints limit generics to specific types.
+
+```typescript
+function getLength<T extends { length: number }>(item: T): number {
+   return item.length;
+}
+```
+
+---
+
+## 13. Constraint Using `keyof`
+
+Use `keyof` for constraints based on object properties.
+
+```typescript
+function getProperty<T, K extends keyof T>(obj: T, key: K): T[K] {
+   return obj[key];
+}
+```
+
+---
+
+## 14. Asynchronous TypeScript
+
+TypeScript supports async programming with Promises and async/await.
+
+```typescript
+async function fetchData(url: string): Promise<string> {
+   const response = await fetch(url);
+   return await response.text();
+}
+```
+
+---
+
+## 15. Conditional Types
+
+Conditional types create types that depend on conditions.
+
+```typescript
+type IsString<T> = T extends string ? "Yes" : "No";
+```
+
+---
+
+## 16. Mapped Types
+
+Mapped types allow you to transform properties in a type.
+
+```typescript
+type ReadOnly<T> = { readonly [K in keyof T]: T[K] };
+```
+
+---
+
+## 17. Utility Types
+
+TypeScript provides utility types for transformations.
+
+```typescript
+type PartialProfile = Partial<UserProfile>;
+type ReadonlyProfile = Readonly<UserProfile>;
+type PickedProfile = Pick<UserProfile, "name" | "email">;
+```
+
+---
+
+This guide provides a strong foundation in TypeScript. Practice these concepts with real projects to master TypeScript!
